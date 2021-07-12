@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Statistical Model</title>
+        <link rel="stylesheet" media="screen" href="static/bootstrap.min.css">
+        <style>
+             h2{
+            text-align: center;
+        }
+            form{
+                max-width: max-content;
+                margin: auto;
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
+            p{
+                max-width: max-content;
+                margin: auto;
+            }
+        </style>
+        <script>
+            function Check() {
+                let query = document.getElementById("query").value;
+                let regExp = /<[A-F]:(1|0?.(([0-9][1-9])|[1-9])+)(;[A-F]:(1|0?.(([0-9][1-9])|[1-9])+))*>/;
+                if (regExp.test(query)) {
+                    document.getElementById("message").style.color = "red";
+                    let sum = 0;
+                    let current = "";
+                    let start =0;
+                    for(let i=0; i<query.length;i++){
+                        if(query[i] === ":")
+                            start = i+1;
+                        if(query[i] === ";" || query[i] === ">"){
+                            for(let j=start;j<i;j++)
+                                current+=query[j];
+                            sum+=(current/1);
+                            current = "";
+                        }
+                    }
+                    let char = "ABCDEF";
+                    let flag = false;
+                    for(let i=0; i<char.length;i++){
+                        let len = 0;
+                        for(let j=0; j<query.length;j++){
+                            let regex = new RegExp(char[i], "g");
+                            len = (query.match(regex) || []).length;
+                            if(len > 1){
+                                document.getElementById("message").innerText = "asds";
+                                flag = true;
+                                break;
+                            }
+                            else
+                                document.getElementById("message").innerText = "";
+                        }
+                        if(flag === true){
+                            break;
+                        }
+                    }
+                    if(flag !== true){
+                        if(sum>1) {
+                            document.getElementById("message").innerText = "asds";
+                            flag = true;
+                        }
+                        else if (sum<1) {
+                            document.getElementById("message").innerText = "sdgsd";
+                            flag = true;
+                        }
+                        else{
+                            document.getElementById("message").innerText = "";
+                            flag = false;
+                        }
+                    }
+                    document.getElementById("submit").disabled = flag;
+                }
+                else {
+                    document.getElementById("message").innerText = "adsdad";
+                    document.getElementById("submit").disabled = true;
+                }
+            }
+        </script>
+    </head>
+    <body  style="background: linear-gradient(to bottom, #ffb84d 11%, #ffff 100%);object-fit: cover;background-repeat: no-repeat;">
+        <form action = "http://127.0.0.1:5000/Statistical Model Result" method = "POST">
+               <h1><label for="query" style="padding-bottom: 8px">Enter Query</label></h1>
+                <input type = "text" name = "query" id="query" onkeyup="Check()"/>
+                <label id="message"></label>
+                <br>
+                <input type = "submit" value = "submit" id="submit"/>
+        </form>
+        <h2><a href="http://127.0.0.1:5000">Home</a></h2>
+        <h2><a href="http://127.0.0.1:5000/Vector_Space_Model">Vector Space Model</a></h2>
+    </body>
+</html>
